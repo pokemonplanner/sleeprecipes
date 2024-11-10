@@ -25,7 +25,10 @@ export const TypeSelectors = (props: {setWeeklyRecipe: Dispatch<SetStateAction<s
                 {(window?.innerWidth > 900 &&
                     <div className="flex-1"/>
                 )}
-                <RecipeSelector setWeeklyRecipe={setWeeklyRecipe} />
+                <Column className={(window?.innerWidth > 900 ? "flex-1" : "flex-2")}>
+                    <h2>Select berries and dish type to see what a team can make:</h2>
+                    <RecipeSelector setWeeklyRecipe={setWeeklyRecipe} />
+                </Column>
                 <CustomSelector setPokemon={setCustomPokemon} context={context} excludeLevel60={excludeLevel60}/>
             </Row>
             <Row className="type-selectors">

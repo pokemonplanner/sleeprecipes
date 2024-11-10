@@ -30,7 +30,7 @@ export const RecipeSelector = (props: {setWeeklyRecipe: Dispatch<SetStateAction<
     }
 
     return (
-        <div className={"recipe-selector-container " + (window?.innerWidth > 900 ? "flex-1" : "flex-2")}>
+        <div className={"recipe-selector-container"}>
             <ReactSelect
                 id="recipe-selector"
                 className="react-select-dropdown"
