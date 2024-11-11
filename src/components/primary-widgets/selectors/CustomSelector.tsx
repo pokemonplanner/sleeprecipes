@@ -31,7 +31,7 @@ export const CustomSelector = (props: {setPokemon: Dispatch<SetStateAction<Pokem
     }
 
     return (
-        <Row className="type-selector flex-1 custom-selector">
+        <Row className="custom-selector">
             <Row>
                 {activeTypeGroups.map(tG => {
                     return (
