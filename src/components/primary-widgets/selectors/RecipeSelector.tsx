@@ -45,7 +45,7 @@ export const RecipeSelector = (props: {setWeeklyRecipe: Dispatch<SetStateAction<
                             <p className="flex-1">{recipeType.value}</p>
                             {(window?.innerWidth > 900 &&
                                 <>
-                                    <img className="img-xs" src={"./recipes/" + recipeType.value.toLowerCase() + ".png"} />
+                                    <img className="img-xs" src={"./recipes/" + recipeType.value.toLowerCase().split("/")[0] + ".png"} />
                                 </>
                             )}
                         </Row>
