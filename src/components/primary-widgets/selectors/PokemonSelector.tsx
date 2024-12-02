@@ -62,7 +62,7 @@ export const PokemonSelector = (props:
                     <HoverHighlight className="img-xs">
                         <Pill vertical={true} className={"green " + getIngredientPillState(monState, true)} />
                         <img 
-                            src={ingredients.find(i => i.name == dexEntry.ingredient_1)?.uri}
+                            src={ingredients.find(i => i.name == dexEntry.ingredient_1)?.uri ?? "ingredients/unknown.png"}
                             className="img-xs"
                             onClick={(event) => {
                                 // TODO: decide if we want clicking the first ingredient to remove the others (maybe long click?)
@@ -71,17 +71,21 @@ export const PokemonSelector = (props:
                             }}
                         />
                     </HoverHighlight>
-                    <HoverHighlight className="img-xs">
-                        <Pill vertical={true} className={"green " + getIngredientPillState(monState, monState?.ingredientLevel30)} />
-                        <img 
-                            src={ingredients.find(i => i.name == dexEntry.ingredient_2)?.uri}
-                            className="img-xs"
-                            onClick={(event) => {
-                                ingredientAction(dexEntry, IngredientLevel.Lvl30); 
-                                event.stopPropagation();
-                            }}
-                        />
-                    </HoverHighlight>
+                    {dexEntry.ingredient_2 && dexEntry.ingredient_2 != "0" ?
+                        <HoverHighlight className="img-xs">
+                            <Pill vertical={true} className={"green " + getIngredientPillState(monState, monState?.ingredientLevel30)} />
+                            <img 
+                                src={ingredients.find(i => i.name == dexEntry.ingredient_2)?.uri}
+                                className="img-xs"
+                                onClick={(event) => {
+                                    ingredientAction(dexEntry, IngredientLevel.Lvl30); 
+                                    event.stopPropagation();
+                                }}
+                            />
+                        </HoverHighlight>
+                        :
+                        <div className="img-xs"/>
+                    }
                     {dexEntry.ingredient_3 && dexEntry.ingredient_3 != "0" ?
                         <HoverHighlight className="img-xs">
                             <Pill vertical={true} className={"grey " + getExcludePillState(excludeLevel60)} />
