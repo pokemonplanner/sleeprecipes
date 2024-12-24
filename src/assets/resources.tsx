@@ -32,7 +32,9 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "35", name: "Clefairy", berry: "Pecha", ingredient_1: "Apple", ingredient_2: "Honey", ingredient_3: "Soybeans",  },
   { dexNumber: "36", name: "Clefable", berry: "Pecha", ingredient_1: "Apple", ingredient_2: "Honey", ingredient_3: "Soybeans",  },
   { dexNumber: "37", name: "Vulpix", berry: "Leppa", ingredient_1: "Soybeans", ingredient_2: "Corn", ingredient_3: "Potato",  },
+  { dexNumber: "037-alolanvulpix", name: "Alolan Vulpix", berry: "Rawst", ingredient_1: "Soybeans", ingredient_2: "Corn", ingredient_3: "Potato",  },
   { dexNumber: "38", name: "Ninetails", berry: "Leppa", ingredient_1: "Soybeans", ingredient_2: "Corn", ingredient_3: "Potato",  },
+  { dexNumber: "038-alolanninetales", name: "Alolan Ninetails", berry: "Rawst", ingredient_1: "Soybeans", ingredient_2: "Corn", ingredient_3: "Potato",  },
   { dexNumber: "174", name: "Igglybuff", berry: "Pecha", ingredient_1: "Honey", ingredient_2: "Oil", ingredient_3: "Cacao",  },
   { dexNumber: "39", name: "Jigglypuff", berry: "Pecha", ingredient_1: "Honey", ingredient_2: "Oil", ingredient_3: "Cacao",  },
   { dexNumber: "40", name: "Wigglytuff", berry: "Pecha", ingredient_1: "Honey", ingredient_2: "Oil", ingredient_3: "Cacao",  },
@@ -106,8 +108,8 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "360", name: "Wynaut", berry: "Mago", ingredient_1: "Apple", ingredient_2: "Mushroom", ingredient_3: "Oil",  },
   { dexNumber: "202", name: "Wobbuffet", berry: "Mago", ingredient_1: "Apple", ingredient_2: "Mushroom", ingredient_3: "Oil",  },
   { dexNumber: "214", name: "Heracross", berry: "Lum", ingredient_1: "Honey", ingredient_2: "Mushroom", ingredient_3: "Sausage",  },
-  { dexNumber: "215", name: "Sneasel", berry: "Wiki", ingredient_1: "", ingredient_2: "", ingredient_3: "",  },
-  { dexNumber: "461", name: "Weavile", berry: "Wiki", ingredient_1: "", ingredient_2: "", ingredient_3: "",  },
+  { dexNumber: "215", name: "Sneasel", berry: "Wiki", ingredient_1: "Sausage", ingredient_2: "Egg", ingredient_3: "Soybeans",  },
+  { dexNumber: "461", name: "Weavile", berry: "Wiki", ingredient_1: "Sausage", ingredient_2: "Egg", ingredient_3: "Soybeans",  },
   { dexNumber: "225", name: "Delibird", berry: "Pamtre", ingredient_1: "Egg", ingredient_2: "Apple", ingredient_3: "Cacao",  },
   { dexNumber: "228", name: "Houndour", berry: "Wiki", ingredient_1: "Herb", ingredient_2: "Ginger", ingredient_3: "Leek",  },
   { dexNumber: "229", name: "Houndoom", berry: "Wiki", ingredient_1: "Herb", ingredient_2: "Ginger", ingredient_3: "Leek",  },
@@ -167,6 +169,9 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "912", name: "Quaxly", berry: "Oran", ingredient_1: "Soybeans", ingredient_2: "Leek", ingredient_3: "Oil",  },
   { dexNumber: "913", name: "Quaxwell", berry: "Oran", ingredient_1: "Soybeans", ingredient_2: "Leek", ingredient_3: "Oil",  },
   { dexNumber: "914", name: "Quaquaval", berry: "Cheri", ingredient_1: "Soybeans", ingredient_2: "Leek", ingredient_3: "Oil",  },
+  { dexNumber: "921", name: "Pawmi", berry: "Grepa", ingredient_1: "Cacao", ingredient_2: "Milk", ingredient_3: "Egg",  },
+  { dexNumber: "922", name: "Pawmo", berry: "Grepa", ingredient_1: "Cacao", ingredient_2: "Milk", ingredient_3: "Egg",  },
+  { dexNumber: "923", name: "Pawmot", berry: "Grepa", ingredient_1: "Cacao", ingredient_2: "Milk", ingredient_3: "Egg",  },
 ]
 
 export const typeDivergentPokedex : string[] = [
@@ -302,7 +307,9 @@ export const pokemonBox : BoxEntry[] = [
   { DexNumber: "35", Pokemon: "Clefairy",  },
   { DexNumber: "36", Pokemon: "Clefable",  },
   { DexNumber: "37", Pokemon: "Vulpix",  },
+  { DexNumber: "037-alolanvulpix", Pokemon: "Alolan Vulpix",  },
   { DexNumber: "38", Pokemon: "Ninetails",  },
+  { DexNumber: "038-alolanninetales", Pokemon: "Alolan Ninetails",  },
   { DexNumber: "174", Pokemon: "Igglybuff",  },
   { DexNumber: "39", Pokemon: "Jigglypuff",  },
   { DexNumber: "40", Pokemon: "Wigglytuff",  },
@@ -437,6 +444,9 @@ export const pokemonBox : BoxEntry[] = [
   { DexNumber: "912", Pokemon: "Quaxly",  },
   { DexNumber: "913", Pokemon: "Quaxwell",  },
   { DexNumber: "914", Pokemon: "Quaquaval",  },
+  { DexNumber: "921", Pokemon: "Pawmi",  },
+  { DexNumber: "922", Pokemon: "Pawmo",  },
+  { DexNumber: "923", Pokemon: "Pawmot",  },
 ]
 
 export type BerryTypes = {
@@ -613,6 +623,7 @@ export const typeGroups : TypeGroup[] = [
   { key: "Pichu_Grepa", pokemon: [ "Pichu", "Pikachu", "Raichu",  ], default: "Raichu", berry: "Grepa",  },
   { key: "Cleffa_Pecha", pokemon: [ "Cleffa", "Clefairy", "Clefable",  ], default: "Clefable", berry: "Pecha",  },
   { key: "Vulpix_Leppa", pokemon: [ "Vulpix", "Ninetails",  ], default: "Ninetails", berry: "Leppa",  },
+  { key: "Alolan_Vulpix_Rawst", pokemon: [ "Alolan Vulpix", "Alolan Ninetails",  ], default: "Alolan Ninetails", berry: "Rawst",  },
   { key: "Igglybuff_Pecha", pokemon: [ "Igglybuff", "Jigglypuff", "Wigglytuff",  ], default: "Wigglytuff", berry: "Pecha",  },
   { key: "Diglett_Figy", pokemon: [ "Diglett", "Dugtrio",  ], default: "Dugtrio", berry: "Figy",  },
   { key: "Meowth_Persim", pokemon: [ "Meowth", "Persian",  ], default: "Persian", berry: "Persim",  },
@@ -687,4 +698,5 @@ export const typeGroups : TypeGroup[] = [
   { key: "Fuecoco_Bluk", pokemon: [ "Skeledirge",  ], default: "Skeledirge", berry: "Bluk",  },
   { key: "Quaxly_Oran", pokemon: [ "Quaxly", "Quaxwell",  ], default: "Quaxly", berry: "Oran",  },
   { key: "Quaxly_Cheri", pokemon: [ "Quaquaval",  ], default: "Quaquaval", berry: "Cheri",  },
+  { key: "Pawmi_Grepa", pokemon: [ "Pawmi", "Pawmo", "Pawmot", ], default: "Pawmot", berry: "Grepa",  },
 ]
