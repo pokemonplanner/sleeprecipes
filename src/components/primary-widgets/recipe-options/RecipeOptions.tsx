@@ -3,10 +3,11 @@ import "./Recipes.less";
 import { Row } from "../../generic/Row";
 import { RowColumnAdaptive } from "../../generic/RowColumnAdaptive";
 import { Column } from "../../generic/Column";
+import { Pill } from "../../generic/Pill";
 
-export const RecipeOptions = (props: {recipes: Recipe[], title: string, titleIngredients: string[], possible?: RecipePossibility}) => {
+export const RecipeOptions = (props: {recipes: Recipe[], title: string, titleIngredients: string[], possible?: RecipePossibility, possibleIngredients: string[]}) => {
 
-    const {title, recipes, titleIngredients, possible} = props;
+    const {title, recipes, titleIngredients, possible, possibleIngredients} = props;
 
 
     const getIngredients = (recipe: Recipe) => {
@@ -17,7 +18,10 @@ export const RecipeOptions = (props: {recipes: Recipe[], title: string, titleIng
 
             if (iCount != undefined && iCount != "0") {
                 currIngredients.push(
-                    <Row key={ingredient.name + "_ingredient-count"}>
+                    <Row key={ingredient.name + "_ingredient-count"} className="ingredient-display">
+                        {possibleIngredients.filter(i => i == ingredient.name).length == 0 && (
+                            <Pill className="red missing-ingredient-text"/>
+                        )}
                         <p className="ingredient-count">{iCount}</p>
                         <img className="img-xs" src={ingredient.uri} />
                     </Row>
