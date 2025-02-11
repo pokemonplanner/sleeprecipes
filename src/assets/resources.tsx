@@ -104,6 +104,7 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "438", name: "Bonsly", berry: "Sitrus", ingredient_1: "Tomato", ingredient_2: "Soybeans", ingredient_3: "Mushroom",  },
   { dexNumber: "185", name: "Sudowoodo", berry: "Sitrus", ingredient_1: "Tomato", ingredient_2: "Soybeans", ingredient_3: "Mushroom",  },
   { dexNumber: "194", name: "Wooper", berry: "Oran", ingredient_1: "Mushroom", ingredient_2: "Potato", ingredient_3: "Sausage",  },
+  { dexNumber: "194-paldeanwooper", name: "Paldean Wooper", berry: "Chesto", ingredient_1: "Cacao", ingredient_2: "Coffee", ingredient_3: "Potato",  },
   { dexNumber: "195", name: "Quagsire", berry: "Oran", ingredient_1: "Mushroom", ingredient_2: "Potato", ingredient_3: "Sausage",  },
   { dexNumber: "360", name: "Wynaut", berry: "Mago", ingredient_1: "Apple", ingredient_2: "Mushroom", ingredient_3: "Oil",  },
   { dexNumber: "202", name: "Wobbuffet", berry: "Mago", ingredient_1: "Apple", ingredient_2: "Mushroom", ingredient_3: "Oil",  },
@@ -174,6 +175,7 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "921", name: "Pawmi", berry: "Grepa", ingredient_1: "Cacao", ingredient_2: "Milk", ingredient_3: "Egg",  },
   { dexNumber: "922", name: "Pawmo", berry: "Grepa", ingredient_1: "Cacao", ingredient_2: "Milk", ingredient_3: "Egg",  },
   { dexNumber: "923", name: "Pawmot", berry: "Grepa", ingredient_1: "Cacao", ingredient_2: "Milk", ingredient_3: "Egg",  },
+  { dexNumber: "980", name: "Clodsire", berry: "Chesto", ingredient_1: "Cacao", ingredient_2: "Coffee", ingredient_3: "Potato",  },
 ]
 
 export const typeDivergentPokedex : string[] = [
@@ -381,6 +383,7 @@ export const pokemonBox : BoxEntry[] = [
   { DexNumber: "438", Pokemon: "Bonsly",  },
   { DexNumber: "185", Pokemon: "Sudowoodo",  },
   { DexNumber: "194", Pokemon: "Wooper",  },
+  { DexNumber: "194-paldeanwooper", Pokemon: "Wooper",  },
   { DexNumber: "195", Pokemon: "Quagsire",  },
   { DexNumber: "360", Pokemon: "Wynaut",  },
   { DexNumber: "202", Pokemon: "Wobbuffet",  },
@@ -451,6 +454,7 @@ export const pokemonBox : BoxEntry[] = [
   { DexNumber: "921", Pokemon: "Pawmi",  },
   { DexNumber: "922", Pokemon: "Pawmo",  },
   { DexNumber: "923", Pokemon: "Pawmot",  },
+  { DexNumber: "980", Pokemon: "Clodsire",  },
 ]
 
 export type BerryTypes = {
@@ -608,6 +612,8 @@ export const recipes : Recipe[] = [
   { key: '60', Type: "Salads", Recipe: "Cross Chop Salad", Apple: "0", Honey: "0", Milk: "0", Ginger: "0", Oil: "0", Cacao: "0", Egg: "20", Soybeans: "0", Potato: "0", Tomato: "10", Mushroom: "0", Tail: "0", Herb: "0", Leek: "0", Corn: "11", Sausage: "15", Coffee: "0", Total_ingredients: "?",  },
   { key: '61', Type: "Desserts/Drinks", Recipe: "Early Bird Coffee Jelly", Apple: "0", Honey: "12", Milk: "14", Ginger: "0", Oil: "0", Cacao: "0", Egg: "0", Soybeans: "0", Potato: "0", Tomato: "0", Mushroom: "0", Tail: "0", Herb: "0", Leek: "0", Corn: "0", Sausage: "0", Coffee: "16", Total_ingredients: "?",  },
   { key: '62', Type: "Desserts/Drinks", Recipe: "Zing Zap Spiced Cola", Apple: "35", Honey: "0", Milk: "0", Ginger: "20", Oil: "0", Cacao: "0", Egg: "0", Soybeans: "0", Potato: "0", Tomato: "0", Mushroom: "0", Tail: "0", Herb: "0", Leek: "20", Corn: "0", Sausage: "0", Coffee: "12", Total_ingredients: "?",  },
+  { key: '63', Type: "Desserts/Drinks", Recipe: "Mold Breaker Corn Tiramisu", Apple: "0", Honey: "0", Milk: "12", Ginger: "0", Oil: "0", Cacao: "0", Egg: "0", Soybeans: "0", Potato: "0", Tomato: "0", Mushroom: "0", Tail: "0", Herb: "0", Leek: "0", Corn: "14", Sausage: "0", Coffee: "14", Total_ingredients: "?",  },
+  { key: '64', Type: "Desserts/Drinks", Recipe: "Clodsire Eclair", Apple: "0", Honey: "22", Milk: "26", Ginger: "0", Oil: "0", Cacao: "30", Egg: "0", Soybeans: "0", Potato: "0", Tomato: "0", Mushroom: "0", Tail: "0", Herb: "0", Leek: "0", Corn: "0", Sausage: "0", Coffee: "24", Total_ingredients: "?",  },
 ]
 
 export type TypeGroup = {
@@ -664,6 +670,7 @@ export const typeGroups : TypeGroup[] = [
   { key: "Mareep_Grepa", pokemon: [ "Mareep", "Flaaffy", "Ampharos",  ], default: "Ampharos", berry: "Grepa",  },
   { key: "Bonsly_Sitrus", pokemon: [ "Bonsly", "Sudowoodo",  ], default: "Sudowoodo", berry: "Sitrus",  },
   { key: "Wooper_Oran", pokemon: [ "Wooper", "Quagsire",  ], default: "Quagsire", berry: "Oran",  },
+  { key: "Paldean_Wooper_Chesto", pokemon: [ "Paldean Wooper", "Clodsire",  ], default: "Clodsire", berry: "Chesto",  },
   { key: "Wynaut_Mago", pokemon: [ "Wynaut", "Wobbuffet",  ], default: "Wobbuffet", berry: "Mago",  },
   { key: "Heracross_Lum", pokemon: [ "Heracross",  ], default: "Heracross", berry: "Lum",  },
   { key: "Weavile_Wiki", pokemon: [ "Sneasel", "Weavile",  ], default: "Weavile", berry: "Wiki",  },
