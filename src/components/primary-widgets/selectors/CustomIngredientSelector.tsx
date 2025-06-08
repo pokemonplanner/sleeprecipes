@@ -1,11 +1,8 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { IngredientLevel, ingredients, pokedex, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
+import { IngredientLevel, ingredients } from "../../../assets/resources";
 import { Row } from "../../generic/Row";
 import { AppContext } from "../../../App";
 import "./Selectors.less"
-import { PokemonSelector } from "./PokemonSelector";
 import { CloseButton } from "../../generic/CloseButton";
-import { Column } from "../../generic/Column";
 import { CloseBackground } from "../../generic/CloseBackground";
 
 export const CustomIngredientSelector = (props: {context: AppContext}) => {
