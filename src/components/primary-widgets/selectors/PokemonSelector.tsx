@@ -8,6 +8,11 @@ import { HoverHighlight } from "../../generic/HoverHighlight";
 import { CloseButton } from "../../generic/CloseButton";
 import { formatIdForPng } from "../../../helpers/helpers";
 
+const getIngredientUri = (ingredientName: string, override?: string | undefined) => {
+    const name = override || ingredientName;
+    return ingredients.find(i => i.name == name)?.uri ?? "ingredients/unknown.png";
+}
+
 export const PokemonSelector = (props: 
     {typeGroup: TypeGroup, context: AppContext, excludeLevel60: boolean, 
         mainAction: (source: Pokemon) => void, ingredientAction: (source: Pokemon, lvl: IngredientLevel) => void, closeAction?: () => any}) => {
@@ -24,8 +29,12 @@ export const PokemonSelector = (props:
         else return "down-0"
     }
 
-    const getExcludePillState = (excludeLevel60: boolean) => {
-        if (excludeLevel60) return "down-1";
+    const ingredientExcluded = (excludeLevel60: boolean, ingredient: string, ingredientSelected: boolean) => {
+        return (excludeLevel60 && !ingredientSelected && ingredient !== "Unknown");
+    }
+
+    const getExcludePillState = (excludeLevel60: boolean, ingredient: string, ingredientSelected: boolean) => {
+        if (ingredientExcluded(excludeLevel60, ingredient, ingredientSelected)) return "down-1";
         else return "down-0"
     }
 
@@ -62,7 +71,7 @@ export const PokemonSelector = (props:
                     <HoverHighlight className="img-xs">
                         <Pill vertical={true} className={"green " + getIngredientPillState(monState, true)} />
                         <img 
-                            src={ingredients.find(i => i.name == dexEntry.ingredient_1)?.uri ?? "ingredients/unknown.png"}
+                            src={getIngredientUri(dexEntry.ingredient_1)}
                             className="img-xs"
                             onClick={(event) => {
                                 // TODO: decide if we want clicking the first ingredient to remove the others (maybe long click?)
@@ -75,10 +84,18 @@ export const PokemonSelector = (props:
                         <HoverHighlight className="img-xs">
                             <Pill vertical={true} className={"green " + getIngredientPillState(monState, monState?.ingredientLevel30)} />
                             <img 
-                                src={ingredients.find(i => i.name == dexEntry.ingredient_2)?.uri}
+                                src={getIngredientUri(dexEntry.ingredient_2, monState?.ingredientLevel30Override)}
                                 className="img-xs"
                                 onClick={(event) => {
-                                    ingredientAction(dexEntry, IngredientLevel.Lvl30); 
+                                    if (dexEntry.ingredient_2 === "Unknown") {
+                                        if (!monState?.ingredientLevel30) {
+                                            context.setCustomIngredientSelectorState({ isActive: true, pokemonState: monState, pokemon: dexEntry, slot: IngredientLevel.Lvl30 });
+                                        } else {
+                                            monState.ingredientLevel30Override = undefined;
+                                            ingredientAction(dexEntry, IngredientLevel.Lvl30);
+                                        }
+                                    }
+                                    else { ingredientAction(dexEntry, IngredientLevel.Lvl30); }
                                     event.stopPropagation();
                                 }}
                             />
@@ -88,13 +105,21 @@ export const PokemonSelector = (props:
                     }
                     {dexEntry.ingredient_3 && dexEntry.ingredient_3 != "0" ?
                         <HoverHighlight className="img-xs">
-                            <Pill vertical={true} className={"grey " + getExcludePillState(excludeLevel60)} />
+                            <Pill vertical={true} className={"grey " + getExcludePillState(excludeLevel60, dexEntry.ingredient_3, monState?.ingredientLevel60 ?? false)} />
                             <Pill vertical={true} className={"green " + getIngredientPillState(monState, monState?.ingredientLevel60)} />
                             <img 
-                                src={ingredients.find(i => i.name == dexEntry.ingredient_3)?.uri}
-                                className={"img-xs" + (excludeLevel60 && (!monState?.Perf || !monState?.ingredientLevel60) ? " fade" : "")}
+                                src={getIngredientUri(dexEntry.ingredient_3, monState?.ingredientLevel60Override)}
+                                className={"img-xs" + (ingredientExcluded(excludeLevel60, dexEntry.ingredient_3, monState?.ingredientLevel60 ?? false) ? " fade" : "")}
                                 onClick={(event) => {
-                                    ingredientAction(dexEntry, IngredientLevel.Lvl60);
+                                    if (dexEntry.ingredient_3 === "Unknown") {
+                                        if (!monState?.ingredientLevel60) {
+                                            context.setCustomIngredientSelectorState({ isActive: true, pokemonState: monState, pokemon: dexEntry, slot: IngredientLevel.Lvl60 });
+                                        } else {
+                                            monState.ingredientLevel60Override = undefined;
+                                            ingredientAction(dexEntry, IngredientLevel.Lvl60);
+                                        }
+                                    }
+                                    else { ingredientAction(dexEntry, IngredientLevel.Lvl60); }
                                     event.stopPropagation();
                                 }}
                             />

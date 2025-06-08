@@ -23,8 +23,10 @@ export const Recipes = (props: {weeklyPokemon: Pokemon[], weeklyRecipe: string, 
         // Get ingredients possible with selected pokemon & ingredent levels
         var possibleIngredients = selectedDexEntries
             .map(p => p.ingredient_1)
-            .concat(selectedDexEntries.filter(p => selectedPokemon.find(oP => oP.DexNumber == p.dexNumber && oP.Perf && (oP.ingredientLevel30)) != undefined).map(p => p.ingredient_2))
-            .concat(selectedDexEntries.filter(p => selectedPokemon.find(oP => oP.DexNumber == p.dexNumber && oP.Perf && oP.ingredientLevel60) != undefined).map(p => p.ingredient_3));
+            .concat(selectedDexEntries.filter(p => selectedPokemon.find(oP => p.ingredient_2 !== "Unknown" && oP.DexNumber == p.dexNumber && oP.Perf && oP.ingredientLevel30) != undefined).map(p => p.ingredient_2))
+            .concat(selectedPokemon.filter(oP => oP.ingredientLevel30Override).map(oP => oP.ingredientLevel30Override!))
+            .concat(selectedDexEntries.filter(p => selectedPokemon.find(oP => p.ingredient_2 !== "Unknown" && oP.DexNumber == p.dexNumber && oP.Perf && oP.ingredientLevel60) != undefined).filter(p => p.ingredient_2 !== "Unknown").map(p => p.ingredient_3))
+            .concat(selectedPokemon.filter(oP => oP.ingredientLevel60Override).map(oP => oP.ingredientLevel60Override!));
         
         // Get ingredients possible with higher levels on selected pokemon
         var higherLvlIngredients = selectedDexEntries.map(p => p.ingredient_2);

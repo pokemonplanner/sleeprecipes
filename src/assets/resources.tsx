@@ -109,6 +109,8 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "194", name: "Wooper", berry: "Oran", ingredient_1: "Mushroom", ingredient_2: "Potato", ingredient_3: "Sausage",  },
   { dexNumber: "194-paldeanwooper", name: "Paldean Wooper", berry: "Chesto", ingredient_1: "Cacao", ingredient_2: "Coffee", ingredient_3: "Potato",  },
   { dexNumber: "195", name: "Quagsire", berry: "Oran", ingredient_1: "Mushroom", ingredient_2: "Potato", ingredient_3: "Sausage",  },
+  { dexNumber: "198", name: "Murkrow", berry: "Wiki", ingredient_1: "Coffee", ingredient_2: "Soybeans", ingredient_3: "Herb",  },
+  { dexNumber: "430", name: "Honchkrow", berry: "Wiki", ingredient_1: "Coffee", ingredient_2: "Soybeans", ingredient_3: "Herb",  },
   { dexNumber: "360", name: "Wynaut", berry: "Mago", ingredient_1: "Apple", ingredient_2: "Mushroom", ingredient_3: "Oil",  },
   { dexNumber: "202", name: "Wobbuffet", berry: "Mago", ingredient_1: "Apple", ingredient_2: "Mushroom", ingredient_3: "Oil",  },
   { dexNumber: "214", name: "Heracross", berry: "Lum", ingredient_1: "Honey", ingredient_2: "Mushroom", ingredient_3: "Sausage",  },
@@ -156,7 +158,7 @@ export const pokedex : Pokemon[] = [
   { dexNumber: "459", name: "Snover", berry: "Rawst", ingredient_1: "Tomato", ingredient_2: "Egg", ingredient_3: "Mushroom",  },
   { dexNumber: "460", name: "Abomasnow", berry: "Rawst", ingredient_1: "Tomato", ingredient_2: "Egg", ingredient_3: "Mushroom",  },
   { dexNumber: "488", name: "Cresselia", berry: "Mago", ingredient_1: "Ginger", ingredient_2: "Cacao", ingredient_3: "Tomato",  },
-  { dexNumber: "491", name: "Darkrai", berry: "Wiki", ingredient_1: "Sausage", ingredient_2: "0", ingredient_3: "0",  },
+  { dexNumber: "491", name: "Darkrai", berry: "Wiki", ingredient_1: "Sausage", ingredient_2: "Unknown", ingredient_3: "Unknown",  },
   { dexNumber: "517", name: "Munna", berry: "Mago", ingredient_1: "Milk", ingredient_2: "Honey", ingredient_3: "Coffee",  },
   { dexNumber: "518", name: "Musharna", berry: "Mago", ingredient_1: "Milk", ingredient_2: "Honey", ingredient_3: "Coffee",  },
   { dexNumber: "627", name: "Rufflet", berry: "Pamtre", ingredient_1: "Corn", ingredient_2: "Coffee", ingredient_3: "0",  },
@@ -233,6 +235,8 @@ export const typeDivergentPokedex : string[] = [
   "Ampharos",
   "Sudowoodo",
   "Quagsire",
+  "Murkrow",
+  "Honchkrow",
   "Wobbuffet",
   "Heracross",
   "Weavile",
@@ -283,6 +287,15 @@ export type BoxEntry = {
   ingredientLevel30?: boolean,
   ingredientLevel60?: boolean,
   Pokemon: string,
+  ingredientLevel30Override?: string,
+  ingredientLevel60Override?: string,
+}
+
+export type CustomIngredientState = {
+  isActive: boolean,
+  pokemon?: Pokemon | undefined,
+  pokemonState?: BoxEntry | undefined,
+  slot?: IngredientLevel | undefined
 }
 
 export enum IngredientLevel {
@@ -398,6 +411,8 @@ export const pokemonBox : BoxEntry[] = [
   { DexNumber: "194", Pokemon: "Wooper",  },
   { DexNumber: "194-paldeanwooper", Pokemon: "Wooper",  },
   { DexNumber: "195", Pokemon: "Quagsire",  },
+  { DexNumber: "198", Pokemon: "Murkrow",  },
+  { DexNumber: "430", Pokemon: "Honchkrow",  },
   { DexNumber: "360", Pokemon: "Wynaut",  },
   { DexNumber: "202", Pokemon: "Wobbuffet",  },
   { DexNumber: "214", Pokemon: "Heracross",  },
@@ -690,6 +705,7 @@ export const typeGroups : TypeGroup[] = [
   { key: "Mareep_Grepa", pokemon: [ "Mareep", "Flaaffy", "Ampharos",  ], default: "Ampharos", berry: "Grepa",  },
   { key: "Bonsly_Sitrus", pokemon: [ "Bonsly", "Sudowoodo",  ], default: "Sudowoodo", berry: "Sitrus",  },
   { key: "Wooper_Oran", pokemon: [ "Wooper", "Quagsire",  ], default: "Quagsire", berry: "Oran",  },
+  { key: "Murkrow_Wiki", pokemon: [ "Murkrow", "Honchkrow",  ], default: "Honchkrow", berry: "Wiki",  },
   { key: "Paldean_Wooper_Chesto", pokemon: [ "Paldean Wooper", "Clodsire",  ], default: "Clodsire", berry: "Chesto",  },
   { key: "Wynaut_Mago", pokemon: [ "Wynaut", "Wobbuffet",  ], default: "Wobbuffet", berry: "Mago",  },
   { key: "Heracross_Lum", pokemon: [ "Heracross",  ], default: "Heracross", berry: "Lum",  },

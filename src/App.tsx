@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import { Column } from './components/generic/Column'
 import { MainPage } from './components/primary-widgets/main-page/MainPage'
-import { BoxEntry, IngredientLevel, Pokemon, pokemonBox } from './assets/resources';
+import { BoxEntry, CustomIngredientState, IngredientLevel, Pokemon, pokemonBox } from './assets/resources';
 import { getBoxCookie, setBoxCookie } from './helpers/cookieHelpers';
 
 export type AppContext = {
@@ -10,6 +10,8 @@ export type AppContext = {
   togglePokemon: (source: Pokemon) => void,
   selectPokemon: (source: Pokemon) => void,
   selectPokemonIngredients: (source: Pokemon, lvl: IngredientLevel) => void,
+  customIngredientSelectorState: CustomIngredientState,
+  setCustomIngredientSelectorState: React.Dispatch<React.SetStateAction<CustomIngredientState>>
 }
 
 const getBoxInit = () => {
@@ -21,6 +23,7 @@ const getBoxInit = () => {
 function App() {
 
   const [selectedPokemon, setSelectedPokemon] = useState<BoxEntry[]>(getBoxInit());
+  const [customIngredientSelectorState, setCustomIngredientSelectorState] = useState<CustomIngredientState>({ isActive: false });
 
   useEffect(() => {
     setBoxCookie(selectedPokemon);
@@ -72,7 +75,7 @@ function App() {
   return (
     <>
       <Column>
-        <MainPage context={{selectedPokemon, togglePokemon, selectPokemon, selectPokemonIngredients}}/>
+        <MainPage context={{selectedPokemon, togglePokemon, selectPokemon, selectPokemonIngredients, customIngredientSelectorState, setCustomIngredientSelectorState}}/>
         {/* <PokemonList context={{selectedPokemon, togglePokemon, selectPokemon, selectPokemonIngredients}}/> */}
       </Column>
     </>

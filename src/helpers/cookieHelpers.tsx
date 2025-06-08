@@ -1,17 +1,20 @@
-import { BoxEntry, pokemonBox } from "../assets/resources";
+import { BoxEntry, pokedex, pokemonBox } from "../assets/resources";
 
 export const cookieToBox = (pokemon: BoxEntry, cookieState: number) => {
     var retPokemon: BoxEntry = {
         DexNumber: pokemon.DexNumber,
         Pokemon: pokemon.Pokemon,
     }
+    var pokemonRecord = pokedex.find(p2 => p2.dexNumber === pokemon.DexNumber);
     if (cookieState >= 4) {  // 100
       cookieState -= 4;
-      retPokemon.ingredientLevel60 = true;
+      if (pokemonRecord?.ingredient_3 !== "Unknown")
+        retPokemon.ingredientLevel60 = true;
     }
     if (cookieState >= 2) {  // 010
       cookieState -= 2;
-      retPokemon.ingredientLevel30 = true;
+      if (pokemonRecord?.ingredient_2 !== "Unknown")
+        retPokemon.ingredientLevel30 = true;
     }
     if (cookieState >= 1) {  // 001
       cookieState -= 1;
