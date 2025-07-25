@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { berryTypes, IngredientLevel, pokedex, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
+import { berryTypes, IngredientLevel, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
 import { Row } from "../../generic/Row";
 import { AppContext } from "../../../App";
 import "./Selectors.less"
@@ -22,7 +22,7 @@ export const TypeSelector = (props: {id: string, setPokemon: Dispatch<SetStateAc
 
     useEffect(() => {
         var typeGroupSubsets = typeGroups.filter(g => g.berry == title);
-        var pokemon = pokedex.filter(p => p.berry == title).filter(p => typeGroupSubsets.find(tGS => tGS.default == p.name) != undefined);
+        var pokemon = context.selectedPokemon.filter(p => p.berry == title).filter(p => typeGroupSubsets.find(tGS => tGS.default == p.name) != undefined);
         setPokemon(pokemon);
         setActiveTypeGroups(typeGroupSubsets);
         document.cookie = "t" + id + "=" + title;

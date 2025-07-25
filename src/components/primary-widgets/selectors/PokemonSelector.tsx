@@ -1,4 +1,4 @@
-import { BoxEntry, IngredientLevel, ingredients, pokedex, Pokemon, TypeGroup } from "../../../assets/resources";
+import { IngredientLevel, ingredients, Pokemon, TypeGroup } from "../../../assets/resources";
 import { Row } from "../../generic/Row";
 import { AppContext } from "../../../App";
 import "./Selectors.less"
@@ -19,13 +19,11 @@ export const PokemonSelector = (props:
 
     const {typeGroup, context, excludeLevel60, mainAction, ingredientAction, closeAction} = props;
     
-    var dexEntry = pokedex.find(p => p.name == typeGroup.default)!;
+    var dexEntry = context.selectedPokemon.find(p => p.name == typeGroup.default)!;
     if (dexEntry == undefined) return null;
 
-    var monState = context.selectedPokemon.find(oP => oP.DexNumber == dexEntry.dexNumber);
-
-    const getIngredientPillState = (monState: BoxEntry | undefined, hasIngredient: boolean | undefined) => {
-        if (monState?.Perf && hasIngredient) return "down-1";
+    const getIngredientPillState = (dexEntry: Pokemon | undefined, hasIngredient: boolean | undefined) => {
+        if (dexEntry?.Perf && hasIngredient) return "down-1";
         else return "down-0"
     }
 
@@ -41,7 +39,7 @@ export const PokemonSelector = (props:
     return (
         <Column
             key={typeGroup.key + "_berry_mon"} 
-            className={"pokemon-selector " + (monState?.Perf ? "can-use" : "cant-use")}
+            className={"pokemon-selector " + (dexEntry?.Perf ? "can-use" : "cant-use")}
         >
             <div onClick={() => mainAction(dexEntry)}>
                 <div className="main-icon">
@@ -51,7 +49,7 @@ export const PokemonSelector = (props:
                     />
                     <Row className="sub-icon-group">
                         {typeGroup.pokemon.filter(subP => subP != dexEntry.name).map(subP => {
-                            var subDexEntry = pokedex.find(p => p.name == subP)!;
+                            var subDexEntry = context.selectedPokemon.find(p => p.name == subP)!;
                             if (subDexEntry == undefined) return null;
 
                             return (
@@ -69,7 +67,7 @@ export const PokemonSelector = (props:
                 </div>
                 <Row className="pokemon-ingredients">
                     <HoverHighlight className="img-xs">
-                        <Pill vertical={true} className={"green " + getIngredientPillState(monState, true)} />
+                        <Pill vertical={true} className={"green " + getIngredientPillState(dexEntry, true)} />
                         <img 
                             src={getIngredientUri(dexEntry.ingredient_1)}
                             className="img-xs"
@@ -82,16 +80,16 @@ export const PokemonSelector = (props:
                     </HoverHighlight>
                     {dexEntry.ingredient_2 && dexEntry.ingredient_2 != "0" ?
                         <HoverHighlight className="img-xs">
-                            <Pill vertical={true} className={"green " + getIngredientPillState(monState, monState?.ingredientLevel30)} />
+                            <Pill vertical={true} className={"green " + getIngredientPillState(dexEntry, dexEntry?.ingredientLevel30)} />
                             <img 
-                                src={getIngredientUri(dexEntry.ingredient_2, monState?.ingredientLevel30Override)}
+                                src={getIngredientUri(dexEntry.ingredient_2, dexEntry?.ingredientLevel30Override)}
                                 className="img-xs"
                                 onClick={(event) => {
                                     if (dexEntry.ingredient_2 === "Unknown") {
-                                        if (!monState?.ingredientLevel30) {
-                                            context.setCustomIngredientSelectorState({ isActive: true, pokemonState: monState, pokemon: dexEntry, slot: IngredientLevel.Lvl30 });
+                                        if (!dexEntry?.ingredientLevel30) {
+                                            context.setCustomIngredientSelectorState({ isActive: true, pokemonState: dexEntry, pokemon: dexEntry, slot: IngredientLevel.Lvl30 });
                                         } else {
-                                            monState.ingredientLevel30Override = undefined;
+                                            dexEntry.ingredientLevel30Override = undefined;
                                             ingredientAction(dexEntry, IngredientLevel.Lvl30);
                                         }
                                     }
@@ -105,17 +103,17 @@ export const PokemonSelector = (props:
                     }
                     {dexEntry.ingredient_3 && dexEntry.ingredient_3 != "0" ?
                         <HoverHighlight className="img-xs">
-                            <Pill vertical={true} className={"grey " + getExcludePillState(excludeLevel60, dexEntry.ingredient_3, monState?.ingredientLevel60 ?? false)} />
-                            <Pill vertical={true} className={"green " + getIngredientPillState(monState, monState?.ingredientLevel60)} />
+                            <Pill vertical={true} className={"grey " + getExcludePillState(excludeLevel60, dexEntry.ingredient_3, dexEntry?.ingredientLevel60 ?? false)} />
+                            <Pill vertical={true} className={"green " + getIngredientPillState(dexEntry, dexEntry?.ingredientLevel60)} />
                             <img 
-                                src={getIngredientUri(dexEntry.ingredient_3, monState?.ingredientLevel60Override)}
-                                className={"img-xs" + (ingredientExcluded(excludeLevel60, dexEntry.ingredient_3, monState?.ingredientLevel60 ?? false) ? " fade" : "")}
+                                src={getIngredientUri(dexEntry.ingredient_3, dexEntry?.ingredientLevel60Override)}
+                                className={"img-xs" + (ingredientExcluded(excludeLevel60, dexEntry.ingredient_3, dexEntry?.ingredientLevel60 ?? false) ? " fade" : "")}
                                 onClick={(event) => {
                                     if (dexEntry.ingredient_3 === "Unknown") {
-                                        if (!monState?.ingredientLevel60) {
-                                            context.setCustomIngredientSelectorState({ isActive: true, pokemonState: monState, pokemon: dexEntry, slot: IngredientLevel.Lvl60 });
+                                        if (!dexEntry?.ingredientLevel60) {
+                                            context.setCustomIngredientSelectorState({ isActive: true, pokemonState: dexEntry, pokemon: dexEntry, slot: IngredientLevel.Lvl60 });
                                         } else {
-                                            monState.ingredientLevel60Override = undefined;
+                                            dexEntry.ingredientLevel60Override = undefined;
                                             ingredientAction(dexEntry, IngredientLevel.Lvl60);
                                         }
                                     }

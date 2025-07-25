@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import { Column } from './components/generic/Column'
 import { MainPage } from './components/primary-widgets/main-page/MainPage'
-import { BoxEntry, CustomIngredientState, IngredientLevel, Pokemon, pokemonBox } from './assets/resources';
+import { CustomIngredientState, IngredientLevel, Pokemon, pokedex } from './assets/resources';
 import { getBoxCookie, setBoxCookie } from './helpers/cookieHelpers';
 
 export type AppContext = {
-  selectedPokemon: BoxEntry[],
+  selectedPokemon: Pokemon[],
   togglePokemon: (source: Pokemon) => void,
   selectPokemon: (source: Pokemon) => void,
   selectPokemonIngredients: (source: Pokemon, lvl: IngredientLevel) => void,
@@ -17,12 +17,12 @@ export type AppContext = {
 const getBoxInit = () => {
   const cookie = getBoxCookie();
   if (cookie.length > 0) return cookie
-  return pokemonBox;
+  return pokedex;
 }
 
 function App() {
 
-  const [selectedPokemon, setSelectedPokemon] = useState<BoxEntry[]>(getBoxInit());
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon[]>(getBoxInit());
   const [customIngredientSelectorState, setCustomIngredientSelectorState] = useState<CustomIngredientState>({ isActive: false });
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function App() {
   }, [selectedPokemon])
 
   const togglePokemon = (source: Pokemon) => {
-      const index = selectedPokemon.findIndex(oP => oP.DexNumber == source.dexNumber);
+      const index = selectedPokemon.findIndex(oP => oP.dexNumber == source.dexNumber);
       if (index == -1) {
         throw new Error("Pokemon not found!");
       }
@@ -43,7 +43,7 @@ function App() {
   }
 
   const selectPokemon = (source: Pokemon) => {
-      const index = selectedPokemon.findIndex(oP => oP.DexNumber == source.dexNumber);
+      const index = selectedPokemon.findIndex(oP => oP.dexNumber == source.dexNumber);
       if (index == -1) {
         throw new Error("Pokemon not found!");
       }
@@ -56,7 +56,7 @@ function App() {
   }
 
   const selectPokemonIngredients = (source: Pokemon, lvl: IngredientLevel) => {
-      const index = selectedPokemon.findIndex(oP => oP.DexNumber == source.dexNumber);
+      const index = selectedPokemon.findIndex(oP => oP.dexNumber == source.dexNumber);
       if (index == -1) {
         throw new Error("Pokemon not found!");
       }

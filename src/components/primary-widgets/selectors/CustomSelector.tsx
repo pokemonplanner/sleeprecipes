@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { IngredientLevel, pokedex, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
+import { IngredientLevel, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
 import { Row } from "../../generic/Row";
 import { AppContext } from "../../../App";
 import "./Selectors.less"
@@ -15,7 +15,7 @@ export const CustomSelector = (props: {setPokemon: Dispatch<SetStateAction<Pokem
     const [showSelectorWindow, setShowSelectorWindow] = useState(false);
 
     useEffect(() => {
-        var pokemon = pokedex.filter(p => activeTypeGroups.find(tGS => tGS.default == p.name) != undefined);
+        var pokemon = context.selectedPokemon.filter(p => activeTypeGroups.find(tGS => tGS.default == p.name) != undefined);
         setPokemon(pokemon);
     }, [activeTypeGroups])
 

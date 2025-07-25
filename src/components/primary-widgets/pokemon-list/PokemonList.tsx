@@ -1,4 +1,3 @@
-import { pokedex } from "../../../assets/resources";
 import { Column } from "../../generic/Column";
 import { Row } from "../../generic/Row";
 import { PageSection } from "../../generic/PageSection";
@@ -14,9 +13,9 @@ export const PokemonList = (props: {context: AppContext}) => {
         <div className="pokemon-list">
             <PageSection>
                 <Column>
-                    {pokedex.map(mon => {
+                    {props.context.selectedPokemon.map(mon => {
                         
-                        var monState = selectedPokemon.find(oP => oP.DexNumber == mon.dexNumber)
+                        var monState = selectedPokemon.find(oP => oP.dexNumber == mon.dexNumber)
 
                         return (
                             <div key={mon.dexNumber + "_Pokemon"} onClick={() => togglePokemon(mon)}>
