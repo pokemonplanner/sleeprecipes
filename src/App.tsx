@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import { Column } from './components/generic/Column'
 import { MainPage } from './components/primary-widgets/main-page/MainPage'
-import { CustomIngredientState, IngredientLevel, Pokemon, pokedex } from './assets/resources';
+import { CustomIngredientState, IngredientLevel, Pokemon, TypeGroup, TypeGroups, savedPokedex, savedTypeGroups } from './assets/resources';
 import { getBoxCookie, setBoxCookie } from './helpers/cookieHelpers';
+import { loadAllTypeGroups } from './helpers/typeGroupLoader';
+import { getPokedex } from './helpers/pokemonSleepLoader';
 
 export type AppContext = {
   selectedPokemon: Pokemon[],
@@ -11,23 +13,40 @@ export type AppContext = {
   selectPokemon: (source: Pokemon) => void,
   selectPokemonIngredients: (source: Pokemon, lvl: IngredientLevel) => void,
   customIngredientSelectorState: CustomIngredientState,
-  setCustomIngredientSelectorState: React.Dispatch<React.SetStateAction<CustomIngredientState>>
+  setCustomIngredientSelectorState: React.Dispatch<React.SetStateAction<CustomIngredientState>>,
+  typeGroups: TypeGroup[] | undefined,
+  typeGroupsLoaded: boolean | undefined
 }
 
-const getBoxInit = () => {
-  const cookie = getBoxCookie();
+const getBoxInit = (pokedex: Pokemon[]) => {
+  const cookie = getBoxCookie(pokedex);
   if (cookie.length > 0) return cookie
   return pokedex;
 }
 
 function App() {
 
-  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon[]>(getBoxInit());
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon[]>(getBoxInit(savedPokedex));
+  const [typeGroups, setTypeGroups] = useState<TypeGroups>(savedTypeGroups);
   const [customIngredientSelectorState, setCustomIngredientSelectorState] = useState<CustomIngredientState>({ isActive: false });
 
   useEffect(() => {
-    setBoxCookie(selectedPokemon);
+    // Only set cookie after cookie data is in play - in this app, that is after the selectedPokemon record has been updated
+    if (typeGroups.loaded) {
+      setBoxCookie(selectedPokemon);
+    }
   }, [selectedPokemon])
+
+  const loadData = async () => {
+    const updatedPokedex    = await getPokedex(selectedPokemon);
+    const updatedTypeGroups = await loadAllTypeGroups(updatedPokedex, typeGroups);
+    setSelectedPokemon(getBoxInit(updatedPokedex))
+    setTypeGroups     (updatedTypeGroups);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const togglePokemon = (source: Pokemon) => {
       const index = selectedPokemon.findIndex(oP => oP.dexNumber == source.dexNumber);
@@ -75,7 +94,15 @@ function App() {
   return (
     <>
       <Column>
-        <MainPage context={{selectedPokemon, togglePokemon, selectPokemon, selectPokemonIngredients, customIngredientSelectorState, setCustomIngredientSelectorState}}/>
+        <MainPage context={{
+          selectedPokemon,
+          togglePokemon,
+          selectPokemon,
+          selectPokemonIngredients,
+          customIngredientSelectorState,
+          setCustomIngredientSelectorState, 
+          typeGroups: typeGroups.groups,
+          typeGroupsLoaded: typeGroups.loaded}}/>
         {/* <PokemonList context={{selectedPokemon, togglePokemon, selectPokemon, selectPokemonIngredients}}/> */}
       </Column>
     </>
@@ -83,3 +110,8 @@ function App() {
 }
 
 export default App
+
+/**
+ * TODO:
+ *  - Partial loads?
+ */

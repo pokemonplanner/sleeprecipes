@@ -1,32 +1,44 @@
-import { Pokemon, pokedex } from "../assets/resources";
+import { Pokemon } from "../assets/resources";
 
 export const cookieToBox = (pokemon: Pokemon, cookieState: number) => {
     var retPokemon: Pokemon = {
       dexNumber: pokemon.dexNumber,
+      originalDexNumber: pokemon.originalDexNumber,
       name: pokemon.name,
       berry: pokemon.berry,
       ingredient_1: pokemon.ingredient_1,
       ingredient_2: pokemon.ingredient_2,
       ingredient_3: pokemon.ingredient_3
     }
-    if (cookieState >= 4) {  // 100
+    // It's possible the user clicked the pokemon before the cookie could load.  If so, maintain that state
+    if (pokemon.ingredientLevel60 == true) {
+      retPokemon.ingredientLevel60 = true;
+    }
+    // Else, check the cookie
+    else if (cookieState >= 4) {  // 100
       cookieState -= 4;
       if (pokemon?.ingredient_3 !== "Unknown")
         retPokemon.ingredientLevel60 = true;
     }
-    if (cookieState >= 2) {  // 010
+    if (pokemon.ingredientLevel30 == true) {
+      retPokemon.ingredientLevel30 = true;
+    }
+    else if (cookieState >= 2) {  // 010
       cookieState -= 2;
       if (pokemon?.ingredient_2 !== "Unknown")
         retPokemon.ingredientLevel30 = true;
     }
-    if (cookieState >= 1) {  // 001
+    if (pokemon.Perf == true) {
+      retPokemon.Perf = true;
+    }
+    else if (cookieState >= 1) {  // 001
       cookieState -= 1;
       retPokemon.Perf = true;
     }
     return retPokemon;
 }
 
-export const getBoxCookie = () => {
+export const getBoxCookie = (pokedex: Pokemon[]) => {
     var cookie = getCookie("pokemon");
 
     var cookies = cookie.split(",");

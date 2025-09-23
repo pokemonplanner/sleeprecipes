@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { berryTypes, IngredientLevel, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
+import { berryTypes, IngredientLevel, Pokemon, TypeGroup } from "../../../assets/resources";
 import { Row } from "../../generic/Row";
 import { AppContext } from "../../../App";
 import "./Selectors.less"
@@ -7,11 +7,16 @@ import { PokemonSelector } from "./PokemonSelector";
 import { getCookie } from "../../../helpers/cookieHelpers";
 import ReactSelect from "react-select";
 import { Column } from "../../generic/Column";
+import LoadingSpinner from "../../generic/LoadingSpinner";
+
+const initTitleDeprecated = "Select a Berry";
+const initTitle = "Select a Berry...";
+const initTitleXS = "...";
 
 const getTitleInit = (id: string) => {
     const cookie = getCookie("t" + id);
     if (cookie.length > 0) return cookie
-    return "Select a Berry";
+    return initTitle;
 }
 
 export const TypeSelector = (props: {id: string, setPokemon: Dispatch<SetStateAction<Pokemon[]>>, context: AppContext, excludeLevel60: boolean}) => {
@@ -21,18 +26,18 @@ export const TypeSelector = (props: {id: string, setPokemon: Dispatch<SetStateAc
     const [activeTypeGroups, setActiveTypeGroups] = useState<TypeGroup[]>([]);
 
     useEffect(() => {
-        var typeGroupSubsets = typeGroups.filter(g => g.berry == title);
-        var pokemon = context.selectedPokemon.filter(p => p.berry == title).filter(p => typeGroupSubsets.find(tGS => tGS.default == p.name) != undefined);
+        var typeGroupSubsets = context.typeGroups?.filter(g => g.berry.toLocaleUpperCase() == title.toLocaleUpperCase()) ?? [];
+        var pokemon = context.selectedPokemon.filter(p => p.berry.toLocaleUpperCase() == title.toLocaleUpperCase()).filter(p => typeGroupSubsets.find(tGS => tGS.defaultId == p.dexNumber) != undefined);
         setPokemon(pokemon);
         setActiveTypeGroups(typeGroupSubsets);
         document.cookie = "t" + id + "=" + title;
-    }, [title])
+    }, [title, context.typeGroups])
 
     return (
         <Column className={`type-selector mobile-width-90 ${title}-background`}>
             <ReactSelect
                 className="mobile-width-90 react-select-dropdown"
-                placeholder={(window?.innerWidth > 900 ? "Select a berry..." : "...")}
+                placeholder={(window?.innerWidth > 900 ? initTitle : initTitleXS)}
                 defaultValue={berryTypes.find(bT => bT.berryName == title) || undefined}
                 isClearable={true}
                 options={berryTypes.map(bT => { return{value: bT.berryName, label: bT.berryName, ...bT}})}
@@ -68,6 +73,9 @@ export const TypeSelector = (props: {id: string, setPokemon: Dispatch<SetStateAc
                         )
                     })}
                 </Row>
+                {title && title !== initTitleDeprecated && title !== initTitle && title !== initTitleXS && !context.typeGroupsLoaded &&
+                    <LoadingSpinner />
+                }
             </Row>
         </Column>
     )

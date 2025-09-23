@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { IngredientLevel, Pokemon, TypeGroup, typeGroups } from "../../../assets/resources";
+import { IngredientLevel, Pokemon, TypeGroup } from "../../../assets/resources";
 import { Row } from "../../generic/Row";
 import { AppContext } from "../../../App";
 import "./Selectors.less"
@@ -15,7 +15,8 @@ export const CustomSelector = (props: {setPokemon: Dispatch<SetStateAction<Pokem
     const [showSelectorWindow, setShowSelectorWindow] = useState(false);
 
     useEffect(() => {
-        var pokemon = context.selectedPokemon.filter(p => activeTypeGroups.find(tGS => tGS.default == p.name) != undefined);
+        // Set pokemon currently displayed so TypeSelectors can filter for ingredients
+        var pokemon = context.selectedPokemon.filter(p => activeTypeGroups.find(tGS => tGS.defaultId == p.dexNumber) != undefined);
         setPokemon(pokemon);
     }, [activeTypeGroups])
 
@@ -77,7 +78,7 @@ export const CustomSelector = (props: {setPokemon: Dispatch<SetStateAction<Pokem
                         className="custom-selector-window"
                     >
                         <Row className="custom-selector-window-inner">
-                            {typeGroups.map(tG => {
+                            {context.typeGroups?.map(tG => {
                                 return (
                                     <div key={tG.key + "_custom-selector-entry"}>
                                         <PokemonSelector

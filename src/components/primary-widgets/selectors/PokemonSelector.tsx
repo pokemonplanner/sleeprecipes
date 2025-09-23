@@ -19,7 +19,8 @@ export const PokemonSelector = (props:
 
     const {typeGroup, context, excludeLevel60, mainAction, ingredientAction, closeAction} = props;
     
-    var dexEntry = context.selectedPokemon.find(p => p.name == typeGroup.default)!;
+    var dexEntry = context.selectedPokemon.find(p => p.dexNumber == typeGroup.defaultId 
+                                                        && p.berry.toLocaleUpperCase() === typeGroup.berry.toLocaleUpperCase())!;
     if (dexEntry == undefined) return null;
 
     const getIngredientPillState = (dexEntry: Pokemon | undefined, hasIngredient: boolean | undefined) => {
@@ -36,6 +37,16 @@ export const PokemonSelector = (props:
         else return "down-0"
     }
 
+    const getSubPokemon = (typeGroup: TypeGroup) => {
+        // if (typeGroup.pokemon && typeGroup.pokemon.length > 0) {
+        //     return typeGroup.pokemon.filter(subP => subP != dexEntry.name);
+        // }
+        if (typeGroup.ids && typeGroup.ids.length > 0) {
+            return typeGroup.ids.filter(subP => subP != dexEntry.dexNumber);
+        }
+        return [];
+    }
+
     return (
         <Column
             key={typeGroup.key + "_berry_mon"} 
@@ -48,8 +59,8 @@ export const PokemonSelector = (props:
                         className="img-m"
                     />
                     <Row className="sub-icon-group">
-                        {typeGroup.pokemon.filter(subP => subP != dexEntry.name).map(subP => {
-                            var subDexEntry = context.selectedPokemon.find(p => p.name == subP)!;
+                        {getSubPokemon(typeGroup).map(subP => {
+                            var subDexEntry = context.selectedPokemon.find(p => p.dexNumber == subP)!;
                             if (subDexEntry == undefined) return null;
 
                             return (
