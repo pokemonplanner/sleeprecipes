@@ -74,13 +74,21 @@ const regions = [
     "HISUIAN",
 ]
 
+const skip = [
+    "HOLIDAY",
+    "HALLOWEEN",
+    "CHRISTMAS",
+    "LOW_KEY"
+]
+
 export const getPokedex = async (pokedex: Pokemon[]) => {
   try {
     const pokemonList = await axios.get("https://api.sleepapi.net/api/pokemon") as {data: string[]};
     const updatedPokedex = [...pokedex];
 
     for(const pokemonName of pokemonList.data) {
-      if (updatedPokedex.filter(p => p.name.toLocaleLowerCase() === pokemonName.toLocaleLowerCase()).length > 0) continue
+      if (updatedPokedex.filter(p => p.name.toLocaleLowerCase() === pokemonName.toLocaleLowerCase()).length > 0
+            || skip.filter(s => pokemonName.includes(s)).length > 0) continue
       try {
         const pokemonInfoRaw = await axios.get(`https://api.sleepapi.net/api/pokemon/${pokemonName}`) as {data: PokemonSleepDexEntry};
         const regionFormArr = regions.filter(r => pokemonInfoRaw.data.name.includes(r));
