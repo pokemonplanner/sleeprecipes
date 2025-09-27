@@ -319,6 +319,9 @@ export const recipeDisplayValues = {
   "curry": "Curries/Stews",
   "salad": "Salads",
   "dessert": "Desserts/Drinks",
+  "Curries/Stews": "Curries/Stews",
+  "Salads": "Salads",
+  "Desserts/Drinks": "Desserts/Drinks",
 }
 
 export const recipeTypes = [
