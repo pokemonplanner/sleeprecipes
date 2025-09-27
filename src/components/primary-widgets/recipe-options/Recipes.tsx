@@ -1,13 +1,15 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { ingredients, Pokemon, Recipe, RecipePossibility, recipes } from "../../../assets/resources";
+import { ingredients, Pokemon, Recipe, RecipePossibility } from "../../../assets/resources";
 import "./Recipes.less";
 import { RecipeOptions } from "./RecipeOptions"
 import { Row } from "../../generic/Row";
 import { Column } from "../../generic/Column";
+import { AppContext } from "../../../App";
+import LoadingSpinner from "../../generic/LoadingSpinner";
 
-export const Recipes = (props: {weeklyPokemon: Pokemon[], weeklyRecipe: string, selectedPokemon: Pokemon[], excludeLevel60: boolean, setExcludeLevel60: Dispatch<SetStateAction<boolean>>}) => {
+export const Recipes = (props: {context: AppContext, weeklyPokemon: Pokemon[], weeklyRecipe: string, selectedPokemon: Pokemon[], excludeLevel60: boolean, setExcludeLevel60: Dispatch<SetStateAction<boolean>>}) => {
 
-    const {weeklyPokemon, weeklyRecipe, selectedPokemon, excludeLevel60, setExcludeLevel60} = props;
+    const {context, weeklyPokemon, weeklyRecipe, selectedPokemon, excludeLevel60, setExcludeLevel60} = props;
     const [column1Recipes, setColumn1Recipes] = useState<Recipe[]>([]);
     const [column2Recipes, setColumn2Recipes] = useState<Recipe[]>([]);
     const [column3Recipes, setColumn3Recipes] = useState<Recipe[]>([]);
@@ -52,7 +54,7 @@ export const Recipes = (props: {weeklyPokemon: Pokemon[], weeklyRecipe: string, 
         var impossibleRecipes: Recipe[] = [];
 
         // Sort the recipes into each category
-        recipes.filter(r => r.Type == weeklyRecipe).forEach(recipe => {
+        context.recipes.filter(r => r.Type == weeklyRecipe).forEach(recipe => {
             var missingForSelected = false;
             var missingForHigherLevels = false;
             var missingForOthers = false;
@@ -96,7 +98,7 @@ export const Recipes = (props: {weeklyPokemon: Pokemon[], weeklyRecipe: string, 
         setColumn2Ingredients(higherLvlIngredients);
         setColumn3Ingredients(otherMonIngredients);
         setColumn4Ingredients(impossibleIngredients);
-    }, [weeklyRecipe, weeklyPokemon, selectedPokemon, excludeLevel60])
+    }, [context.recipes, weeklyRecipe, weeklyPokemon, selectedPokemon, excludeLevel60])
 
     return (
         <Column className="recipes-section">
@@ -104,6 +106,11 @@ export const Recipes = (props: {weeklyPokemon: Pokemon[], weeklyRecipe: string, 
                 <input type="checkbox" checked={excludeLevel60} readOnly />
                 <p>Exclude Level 60 Ingredients</p>
             </Row>
+            {!context.recipesLoaded &&
+                <div className="recipes-lists">
+                    <LoadingSpinner />
+                </div>
+            }
             <Row className="recipes-lists">
                 <RecipeOptions title="Possible Recipes"             recipes={column1Recipes} titleIngredients={column1Ingredients} possibleIngredients={column1Ingredients}
                     possible={RecipePossibility.Possible} />

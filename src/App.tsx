@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import './App.css'
 import { Column } from './components/generic/Column'
 import { MainPage } from './components/primary-widgets/main-page/MainPage'
-import { CustomIngredientState, IngredientLevel, Pokemon, TypeGroup, TypeGroups, savedPokedex, savedTypeGroups } from './assets/resources';
+import { CustomIngredientState, IngredientLevel, Pokemon, Recipe, Recipes, TypeGroup, TypeGroups, savedPokedex, savedRecipes, savedTypeGroups } from './assets/resources';
 import { getBoxCookie, setBoxCookie } from './helpers/cookieHelpers';
 import { loadAllTypeGroups } from './helpers/typeGroupLoader';
 import { getPokedex } from './helpers/pokemonSleepLoader';
+import { getRecipes } from './helpers/recipeLoader';
 
 export type AppContext = {
   selectedPokemon: Pokemon[],
@@ -15,7 +16,9 @@ export type AppContext = {
   customIngredientSelectorState: CustomIngredientState,
   setCustomIngredientSelectorState: React.Dispatch<React.SetStateAction<CustomIngredientState>>,
   typeGroups: TypeGroup[] | undefined,
-  typeGroupsLoaded: boolean | undefined
+  typeGroupsLoaded: boolean | undefined,
+  recipes: Recipe[],
+  recipesLoaded: boolean | undefined
 }
 
 const getBoxInit = (pokedex: Pokemon[]) => {
@@ -28,6 +31,7 @@ function App() {
 
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon[]>(getBoxInit(savedPokedex));
   const [typeGroups, setTypeGroups] = useState<TypeGroups>(savedTypeGroups);
+  const [recipes, setRecipes] = useState<Recipes>(savedRecipes);
   const [customIngredientSelectorState, setCustomIngredientSelectorState] = useState<CustomIngredientState>({ isActive: false });
 
   useEffect(() => {
@@ -37,15 +41,20 @@ function App() {
     }
   }, [selectedPokemon])
 
-  const loadData = async () => {
+  const loadPokemonData = async () => {
     const updatedPokedex    = await getPokedex(selectedPokemon);
     const updatedTypeGroups = await loadAllTypeGroups(updatedPokedex, typeGroups);
     setSelectedPokemon(getBoxInit(updatedPokedex))
     setTypeGroups     (updatedTypeGroups);
   }
 
+  const loadRecipeData = async () => {
+    setRecipes(await getRecipes());
+  }
+
   useEffect(() => {
-    loadData();
+    loadPokemonData();
+    loadRecipeData();
   }, []);
 
   const togglePokemon = (source: Pokemon) => {
@@ -102,7 +111,10 @@ function App() {
           customIngredientSelectorState,
           setCustomIngredientSelectorState, 
           typeGroups: typeGroups.groups,
-          typeGroupsLoaded: typeGroups.loaded}}/>
+          typeGroupsLoaded: typeGroups.loaded,
+          recipes: recipes.recipes,
+          recipesLoaded: recipes.loaded
+        }}/>
         {/* <PokemonList context={{selectedPokemon, togglePokemon, selectPokemon, selectPokemonIngredients}}/> */}
       </Column>
     </>

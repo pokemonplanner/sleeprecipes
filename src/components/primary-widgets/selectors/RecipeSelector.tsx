@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Row } from "../../generic/Row";
 import { getCookie } from "../../../helpers/cookieHelpers";
 import ReactSelect from "react-select";
-import { recipeTypes } from "../../../assets/resources";
+import { recipeDisplayValues, recipeTypes } from "../../../assets/resources";
 
 const getTitleInit = () => {
     const cookie = getCookie("r");
@@ -29,6 +29,10 @@ export const RecipeSelector = (props: {setWeeklyRecipe: Dispatch<SetStateAction<
         }
     }
 
+    const getDisplayValue = (value: string) => {
+        return recipeDisplayValues[value as keyof typeof recipeDisplayValues];
+    }
+
     return (
         <div className={"recipe-selector-container"}>
             <ReactSelect
@@ -42,10 +46,10 @@ export const RecipeSelector = (props: {setWeeklyRecipe: Dispatch<SetStateAction<
                 formatOptionLabel={recipeType => (
                     <div key={recipeType + "-selector"}>
                         <Row>
-                            <p className="flex-1">{recipeType.value}</p>
+                            <p className="flex-1">{getDisplayValue(recipeType.value)}</p>
                             {(window?.innerWidth > 900 &&
                                 <>
-                                    <img className="img-xs" src={"./recipes/" + recipeType.value.toLowerCase().split("/")[0] + ".png"} />
+                                    <img className="img-xs" src={"./recipes/" + getDisplayValue(recipeType.value).toLowerCase().split("/")[0] + ".png"} />
                                 </>
                             )}
                         </Row>

@@ -129,6 +129,6 @@ export const getPokedex = async (pokedex: Pokemon[]) => {
     return updatedPokedex;
   } catch (e) {
     console.log(e)
-    return [];
+    return pokedex;
   }
 }

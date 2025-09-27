@@ -45,14 +45,14 @@ export const RecipeOptions = (props: {recipes: Recipe[], title: string, titleIng
             <Row className="recipe-entries">
                 {recipes.map(recipe => 
                     <RowColumnAdaptive 
-                        key={recipe.key + "_recipe-entry"} 
+                        key={recipe.RecipeApiName + "_recipe-entry"} 
                         className={"recipe-entry" 
                             + (possible == RecipePossibility.Possible ? " possible-recipe" : "")
                             + (possible == RecipePossibility.Impossible ? " impossible-recipe" : "")}
                     >
                         <Row>
                             <div>
-                                <img className="img-m" src={"./recipes/" + recipe.Recipe.toLowerCase().split(" ").join("") + ".png"} />
+                                <img className="img-m" src={"https://www.serebii.net/pokemonsleep/meals/" + recipe.Recipe.toLowerCase().split(" ").join("").split('\"').join('').normalize("NFD").replace(/[\u0300-\u036f]/g, "") + ".png"} />
                             </div>
                         </Row>
                         <p className="recipe-name">{recipe.Recipe}</p>
