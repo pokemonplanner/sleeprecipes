@@ -313,6 +313,7 @@ export const ingredients: Ingredients[] = [
   {name: "Corn", uri: "./ingredients/greengrasscorn.png"},
   {name: "Sausage", uri: "./ingredients/beansausage.png"},
   {name: "Coffee", uri: "./ingredients/rousingcoffee.png"},
+  {name: "Pumpkin", uri: "./ingredients/plumppumpkin.png"},
 ]
 
 export const recipeDisplayValues = {
